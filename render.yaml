@@ -6,17 +6,16 @@ services:
     rootDir: .
     envVars:
       - key: OPENAI_API_KEY
-        sync: false
+        value: dummy
       - key: OPENAI_MODEL
-        value: gpt-3.5-turbo
+        value: gpt-4o-mini
       - key: ALLOWED_ORIGINS
-        value: "*"
+        value: https://syntaxify-frontend.onrender.com
   - type: web
     name: syntaxify-frontend
-    runtime: static
-    buildCommand: |
-      unzip -o codex-syntaxify-main.zip
-    staticPublishPath: codex-syntaxify-main/codex-syntaxify-main/frontend
+    runtime: docker
+    dockerfilePath: frontend.Dockerfile
+    rootDir: .
     envVars:
       - key: VITE_API_BASE_URL
         value: https://syntaxify-backend.onrender.com

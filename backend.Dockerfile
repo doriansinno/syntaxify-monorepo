@@ -14,6 +14,15 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 # Copy the built JAR from the build stage
 COPY --from=build /app/codex-syntaxify-main/codex-syntaxify-main/backend/target/*.jar app.jar
+
+# Provide default environment variables to avoid startup failures when secrets
+# are not configured at runtime. These can be overridden by Render's environment
+# settings or via docker run -e. A placeholder API key ensures that the
+# application does not crash on startup due to a missing OPENAI_API_KEY. You
+# should set a real key in Render's dashboard for production use.
+ENV OPENAI_API_KEY=dummy \
+    OPENAI_MODEL=gpt-4o-mini \
+    ALLOWED_ORIGINS=https://syntaxify-frontend.onrender.com
 EXPOSE 10000
 # Run the JAR, binding to the PORT environment variable if provided (Render sets PORT)
 CMD ["sh", "-c", "java -Dserver.port=${PORT:-10000} -jar app.jar"]
