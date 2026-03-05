@@ -11,8 +11,9 @@ services:
         value: gpt-3.5-turbo
       - key: ALLOWED_ORIGINS
         value: "*"
-  - type: static
+  - type: web
     name: syntaxify-frontend
+    runtime: static
     buildCommand: |
       unzip -o codex-syntaxify-main.zip
     staticPublishPath: codex-syntaxify-main/codex-syntaxify-main/frontend
